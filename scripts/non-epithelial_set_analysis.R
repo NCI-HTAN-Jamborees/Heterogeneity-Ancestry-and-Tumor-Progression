@@ -131,7 +131,7 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
         legend.text = element_text(size = 15)) +
   guides(fill = guide_legend(override.aes = list(size = 8)))
 bar_cluster
-ggsave(plot = bar_cluster,height =4,width =5, filename = paste0(umap_path, "/barplot_cluster.pdf"))
+ggsave(plot = bar_cluster,height=8,width=6, filename = paste0(umap_path, "/barplot_cluster.pdf"))
 
 
 p10 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type", group.by = "Cell_Type")
@@ -163,7 +163,15 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
         legend.text = element_text(size = 15)) +
   guides(fill = guide_legend(override.aes = list(size = 8)))
 bar_cluster
-ggsave(plot = bar_cluster,height =4,width =5, filename = paste0(umap_path, "/barplot_cluster_race_tumor_celltype.pdf"))
+ggsave(plot = bar_cluster,height =8,width =6, filename = paste0(umap_path, "/barplot_cluster_race_tumor_celltype.pdf"))
+
+# B-cell: CD20, CD21, CD19
+# Fibroblasts: VIM, FAP, FSP1, SMA
+# T-cell: CD8, CD4, CD3, CD28
+# MYE: CD68, CD80, CD86, CD206, CD163
+# PLA: CD38, MUM1
+# MAS: CD117
+# END: CD31, CD34, VEGF
 
 ##################
 
