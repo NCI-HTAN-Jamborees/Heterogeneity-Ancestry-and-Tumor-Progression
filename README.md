@@ -1,7 +1,7 @@
 # Heterogeneity-Ancestry-and-Tumor-Progression
 ## Team Lead: Isra Elhussin
 
-## Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
+### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
 ### Background and Rationale:
 Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [Cancer Facts and Figures 2024]. Compelling evidence suggests there are differences in tumor microenvironment between Black or African American and European American cancer patients. However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients. We propose to evaluate the spatial transcriptome by genetic ancestry, an individual’s family tree by which they inherit DNA from specific ancestors [Reference National Academies of Science, Engineering, and Medicine (NASEM)]. 
