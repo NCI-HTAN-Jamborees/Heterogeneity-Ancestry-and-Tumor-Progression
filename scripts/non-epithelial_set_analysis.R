@@ -142,6 +142,29 @@ p11 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type_
 
 ggsave(paste0 (umap_path,"/UMAP_splitRaceTumorType_groupCellType_so.pdf"), p11, width = 12, height = 5)
 
+
+long_data_cluster <- m_so[,c("self_reported_ethnicity","Tumor_Type","Cell_Type")] %>%
+  group_by(self_reported_ethnicity,Tumor_Type,Cell_Type) %>%
+  summarise(count=n()) %>%
+  mutate(percentage = count / sum(count) * 100)
+long_data_cluster
+bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = percentage, fill =Cell_Type)) +
+  geom_bar(stat = "identity", position = "fill") +
+  geom_text(
+    data=filter(long_data_cluster,percentage>1),
+    aes(label = count), position = position_fill(vjust = 0.5),
+    color = "white") +
+  labs(title = "Percentage Bar Plot", x = "self_reported_ethnicity", y = "Percentage") +
+  facet_wrap(~ Tumor_Type, ncol=3, scales = "free_x")  +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.title = element_text(size = 20),  # Increase legend title size
+        legend.text = element_text(size = 15)) +
+  guides(fill = guide_legend(override.aes = list(size = 8)))
+bar_cluster
+ggsave(plot = bar_cluster,height =4,width =5, filename = paste0(umap_path, "/barplot_cluster_race_tumor_celltype.pdf"))
+
 ##################
 
 p1
