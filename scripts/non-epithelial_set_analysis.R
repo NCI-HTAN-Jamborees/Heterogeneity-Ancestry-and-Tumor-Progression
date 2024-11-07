@@ -122,7 +122,7 @@ p6 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "age_group")
 #p1+p2+p3
 #p4+p5+p6
 
-p7
+p1
 ggsave(paste0 (umap_path,"/1.UMAP_splitPolyb_groupRace_so.pdf"), p7, width = 18, height = 5)
 
 combined_plot <- p1 + p2 + p3 + p4 +p5+p6
@@ -175,10 +175,6 @@ combined_plot <- combined_plot + plot_layout(ncol = 3)
 plot(combined_plot) 
 # Save the combined plot as a PDF file
 ggsave(paste0 (umap_path,"/1.UMAP_so_NLSSLTA.pdf"), combined_plot, width = 18, height = 10)
-
-
-
-
 
 
 
