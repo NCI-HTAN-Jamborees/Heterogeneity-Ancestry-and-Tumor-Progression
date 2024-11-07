@@ -1,5 +1,5 @@
 # Heterogeneity-Ancestry-and-Tumor-Progression
-## Team Lead: Isra Elhussin
+### Team Lead: Isra Elhussin
 
 ### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
