@@ -27,6 +27,7 @@ dir.create(marker_path,showWarnings=F)
 plot_path = output_path
 
 
+## load object
 getwd()
 object <- readRDS(paste0(input_path,"/Val_set_of_human_colorectal_tumor_Epithelial.rds"))
 colors <- c('lightgrey', 'navy')
@@ -166,6 +167,30 @@ plot(combined_plot)
 ggsave(paste0 (umap_path,"/1.UMAP_so_NLSSLTA.pdf"), combined_plot, width = 18, height = 10)
 
 
+## Generate bar plot
+p9 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, split.by = "self_reported_ethnicity", group.by = "Cell_Type")
+
+long_data_cluster <- m_so[,c("self_reported_ethnicity","Cell_Type")] %>% 
+  group_by(self_reported_ethnicity,Cell_Type) %>%
+  summarise(count=n()) %>%
+  mutate(percentage = count / sum(count) * 100)
+
+long_data_cluster
+bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = percentage, fill = Cell_Type)) +
+  geom_bar(stat = "identity", position = "fill") +
+  geom_text(
+    data=filter(long_data_cluster,percentage>1),
+    aes(label = count), position = position_fill(vjust = 0.5),
+    color = "white") +
+  labs(title = "Percentage Bar Plot", x = "SampleID", y = "Percentage") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.title = element_text(size = 20),  # Increase legend title size
+        legend.text = element_text(size = 15)) +
+  guides(fill = guide_legend(override.aes = list(size = 8)))
+bar_cluster
+ggsave(plot = bar_cluster,height =4,width =5, filename = paste0(umap_path, "/4.barplot_cluster.pdf"))
 
 
 
