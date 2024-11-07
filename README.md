@@ -25,3 +25,8 @@ We define high ancestry as 70%.
 ### Data Collection and Processing:
 
 We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TL).
+
+
+### Future Directions:
+
+We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumor type.  We propose to visualize the data by cell type.
