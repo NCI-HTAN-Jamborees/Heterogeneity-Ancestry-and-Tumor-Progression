@@ -380,7 +380,8 @@ AA_marker_mapped_df <- data.frame(
   # Now let's join the rest of the expression data
   dplyr::full_join(markers_AA_prem_norm, by = c("Ensembl" = "gene")) %>%
   mutate(gene_symbol = ifelse(is.na(gene_symbol), Ensembl, gene_symbol))
-
+ensembl2symbol = unique(AA_marker_mapped_df[,c(1,2)])
+ensembl_to_symbol <- setNames(ensembl2symbol$gene_symbol, ensembl2symbol$Ensembl)
 AA_marker_mapped_df = AA_marker_mapped_df %>% 
   arrange (p_val_adj) 
 
@@ -436,6 +437,8 @@ EU_marker_mapped_df <- data.frame(
   # Now let's join the rest of the expression data
   dplyr::full_join(markers_EU_prem_norm, by = c("Ensembl" = "gene")) %>%
   mutate(gene_symbol = ifelse(is.na(gene_symbol), Ensembl, gene_symbol))
+ensembl2symbol = unique(EU_marker_mapped_df[,c(1,2)])
+ensembl_to_symbol <- setNames(ensembl2symbol$gene_symbol, ensembl2symbol$Ensembl)
 
 EU_marker_mapped_df = EU_marker_mapped_df %>% 
   arrange (p_val_adj) 
