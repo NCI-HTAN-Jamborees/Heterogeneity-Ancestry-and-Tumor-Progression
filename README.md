@@ -74,6 +74,11 @@ Figure 5:
 ![image](https://github.com/user-attachments/assets/1fb39bbf-3861-4c25-87ca-cc1a57dfe710)
 
 
+Figure 6:
+
+![image](https://github.com/user-attachments/assets/0eb89ae2-0914-4229-b5a9-38a1d2620a19)
+
+
 
 
 [Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
