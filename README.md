@@ -4,7 +4,7 @@
 ### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
 ### Background and Rationale:
-Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2024-cancer-facts-figures.html). Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. [Genetic ancestry](https://nap.nationalacademies.org/read/26902/chapter/1#ii) captures an individual’s family tree by which they inherit DNA from specific ancestors. 
+Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2024-cancer-facts-figures.html). Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the single cell drivers of progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. [Genetic ancestry](https://nap.nationalacademies.org/read/26902/chapter/1#ii) captures an individual’s family tree by which they inherit DNA from specific ancestors. 
 ![image](https://github.com/user-attachments/assets/d7e7f0b4-d6bc-4a73-bf41-dfa5d9052b9d)
 
 ### Objective: 
@@ -25,11 +25,11 @@ We accessed and extracted data from the HTAN portal and subsequently matched sam
 
 
 ### Statistical Analysis:
-We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue and premalignant adenoma (polyp) tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
+We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue, and premalignant serrated polyp tissue, and tubular adenoma tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
 
 
 ### Results:
-We generated reduced-dimensionality (UMAP) visualization plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry.
+We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
 
 
 ### Installation:
