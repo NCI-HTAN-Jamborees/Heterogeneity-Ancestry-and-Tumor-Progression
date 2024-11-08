@@ -27,14 +27,15 @@ We define high ancestry as 70%.
 We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TL). We selected the median age due sparse data for individuals less than age 50 years at diagnosis.
 
 
-### Statistical Analysis
+### Statistical Analysis:
 We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue and premalignant adenoma (polyp) tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
 
 
 ### Results:
 
 
-### Installation
+
+### Installation:
 R Programming (R 4.3.2) and the following packages were used for this project: 
 Seurat 5
 Seurat Object_5.0.1
