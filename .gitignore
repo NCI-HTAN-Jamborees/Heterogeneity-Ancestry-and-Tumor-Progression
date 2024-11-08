@@ -2,3 +2,9 @@
 CellxGene
 temp.csv
 .DS_Store
+# ignore files start with .
+.*
+
+# But do not ignore the following files
+!.gitignore
+!.ignore
