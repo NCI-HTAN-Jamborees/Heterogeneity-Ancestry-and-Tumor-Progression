@@ -35,12 +35,6 @@ TAC: transit amplifying cells
 ### Statistical Analysis:
 We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue, and premalignant serrated polyp tissue, and tubular adenoma tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
 
-
-### Results:
-We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
-
-
-
 ### Installation:
 R Programming (R 4.3.2) and the following packages were used for this project: 
 
@@ -55,6 +49,19 @@ cowplot
 patchwork
 
 gridExtra
+
+### Results:
+We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
+
+Figure 1:
+![image](https://github.com/user-attachments/assets/9022897f-04b0-425e-a989-f34d54e4da71)
+
+Figure 2:
+![image](https://github.com/user-attachments/assets/1669e944-df0b-4ae0-8c6d-254ad72f5d9c)
+
+
+
+
 
 [Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
 
