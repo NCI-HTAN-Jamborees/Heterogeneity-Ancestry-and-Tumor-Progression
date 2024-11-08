@@ -8,7 +8,6 @@ library(gridExtra)
 ## setup working dir and results dir
 working_dir = getwd()
 setwd(working_dir)
-# getwd()
 output_path = paste0(working_dir,"/results/non-epithelial")
 dir.create(output_path, showWarnings = F)
 input_path = paste0(working_dir,"/CellxGene")
@@ -26,7 +25,8 @@ dir.create(feature_path,showWarnings=F)
 dir.create(marker_path,showWarnings=F)
 plot_path = output_path
 
-getwd()
+############################## Part 1: filtering################################
+
 #This file is downloaded from https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd
 object <- readRDS(paste0(input_path,"/non-epithelial_data.rds"))
 colors <- c('lightgrey', 'navy')
@@ -48,6 +48,7 @@ biospecimens_df_need
 cat("There are ",length(unique(biospecimens_df_need$HTAN_Biospecimen_ID)), " biospecimens from  Vanderbilt Colon Molecular Atlas Project")
 as.data.frame(table(biospecimens_df_need$Tumor_Tissue_Type))
 
+# add biospecimen information
 m_addbiospecimens = m %>%
   left_join(biospecimens_df_need, by= c("HTAN Specimen ID"  = "HTAN_Biospecimen_ID"))
 
@@ -58,6 +59,7 @@ summary_tumor_race = as.data.frame(table(m_addbiospecimens$Tumor_Tissue_Type, m_
   )
 write.table(summary_tumor_race,"results/non-epithelial/summary_tumor_race_before_filtering.tab",sep="\t",row.names = F, quote=F)
 
+# filter cells
 m_needed = m_addbiospecimens %>%
   filter(self_reported_ethnicity == "European" | self_reported_ethnicity == "African American") %>%
   filter(Tumor_Tissue_Type=="Normal" | Tumor_Tissue_Type=="Premalignant") %>%
@@ -65,7 +67,7 @@ m_needed = m_addbiospecimens %>%
 m_needed$self_reported_ethnicity = as.character(m_needed$self_reported_ethnicity)
 m_needed$self_reported_ethnicity = factor(m_needed$self_reported_ethnicity)
 
-# colnames(m_addbiospecimens)
+# add age group
 m_needed = m_needed %>%
   mutate(age = gsub("-year-old stage","",development_stage)) %>%
   mutate(age_group = ifelse(age >60,">60","<=60"))
@@ -73,6 +75,7 @@ table(m_needed$age)
 
 table(m_needed$Tumor_Type, m_needed$self_reported_ethnicity)
 
+# obtain cell_barcodes after filtering
 cells_needed = m_needed$cell_barcode
 
 m_need_for_metadata = m_needed[,c("cell_barcode","Tumor_Tissue_Type","age_group")]
@@ -89,26 +92,22 @@ summary_tumor_race_after = as.data.frame(table(m_needed$Tumor_Tissue_Type, m_nee
 summary_tumor_race_after
 write.table(summary_tumor_race_after,"results/non-epithelial/summary_tumor_race_before_filtering.tab",sep="\t",row.names = F, quote=F)
 
+# save fitlered seurat object
 saveRDS(so,"CellxGene/Filtered_no_Epithelial.rds")
 
+############################## Part 2: analysis ################################
 so <- readRDS("CellxGene/Filtered_no_Epithelial.rds")
 
 cell.size = 0.1
 resolution = 0.2
 reduction_name = "umap"
-#p1 = DimPlot(so,reduction="umap.integrated.rpca", pt.size =0.1, group.by = c("condition"))
 p1 = DimPlot(so,reduction=reduction_name, pt.size =0.1, group.by = c("self_reported_ethnicity"))
 p2 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "Tumor_Tissue_Type")
-#p2 = DimPlot(so, reduction=reduction_name,group.by = "rna_clusters")
 p3 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by="self_reported_ethnicity", group.by = "Cell_Type")
 p4 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "sex")
 p5 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "Tumor_Type")
 p6 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "age_group")
 p7 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type", group.by = "self_reported_ethnicity")
-#p1+p2+p3
-#p4+p5+p6
-
-
 p9 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "self_reported_ethnicity", group.by = "Cell_Type")
 
 m_so = so@meta.data
@@ -135,7 +134,6 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
 bar_cluster
 ggsave(plot = bar_cluster,height=8,width=6, filename = paste0(umap_path, "/barplot_cluster.pdf"))
 
-
 p10 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type", group.by = "Cell_Type")
 
 so$Tumor_Type_Race <- paste(so$Tumor_Type, so$self_reported_ethnicity, sep = "_")
@@ -143,7 +141,6 @@ so$Tumor_Type_Race <- paste(so$Tumor_Type, so$self_reported_ethnicity, sep = "_"
 p11 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type_Race", ncol = 2, group.by = "Cell_Type")
 
 ggsave(paste0 (umap_path,"/UMAP_splitRaceTumorType_groupCellType_so.pdf"), p11, width = 12, height = 10)
-
 
 long_data_cluster <- m_so[,c("self_reported_ethnicity","Tumor_Type","Cell_Type")] %>%
   group_by(self_reported_ethnicity,Tumor_Type,Cell_Type) %>%
@@ -166,6 +163,8 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
   guides(fill = guide_legend(override.aes = list(size = 8)))
 bar_cluster
 ggsave(plot = bar_cluster,height =8,width =6, filename = paste0(umap_path, "/barplot_cluster_race_tumor_celltype.pdf"))
+
+# Plot gene expression using FeaturePlot
 
 # B-cell: CD20 (ENSG00000156738), CD21 (ENSG00000117322), CD19 (ENSG00000177455)
 # Fibroblasts: VIM (ENSG00000026025), FAP (ENSG00000078098), FSP1 (ENSG00000042286), SMA (ENSG00000172062)
@@ -208,9 +207,6 @@ AA_markers <- FindMarkers(so, ident.2 = "Normal_African American", ident.1 = "Pr
 AA_markers <- AA_markers %>%
   rownames_to_column(var = "gene")
 
-# EU_markers <- EU_markers %>%
-#   rownames_to_column(var = "gene")
-
 # Step 1: Convert Ensembl IDs to gene symbols
 AA_gene_conversion <- AnnotationDbi::select(
   org.Hs.eg.db,
@@ -235,134 +231,6 @@ AA_filtered_markers <- AA_markers %>%
 write.csv(AA_filtered_markers, "results/non-epithelial/AA_filtered_markers.csv")
 
 ###############################################################
-# Prepare the ranked gene list for GSEA
-AA_gsea_gene_list <- AA_filtered_markers %>%
-  pull(avg_log2FC, gene_name)  # Create a named vector with avg_log2FC values
-
-# Ensure the gene list is sorted in decreasing order of avg_log2FC
-AA_gsea_gene_list <- sort(AA_gsea_gene_list, decreasing = TRUE)
-
-# Step 3: Perform GSEA using clusterProfiler
-AA_gsea_results <- gseGO(
-  geneList = AA_gsea_gene_list,
-  ont = "ALL",           # Use "BP", "MF", or "CC" for specific ontology
-  OrgDb = org.Hs.eg.db,  # Database for human genes
-  keyType = "SYMBOL",    # We are using gene symbols now
-  minGSSize = 5,        # Minimum gene set size
-  maxGSSize = 1000,       # Maximum gene set size
-  pvalueCutoff = 0.1,   # Adjust as needed
-  verbose = FALSE
-)
-
-# View GSEA results
-head(AA_gsea_results@result)
-
-# Optional: Visualize the GSEA results
-dotplot(AA_gsea_results, showCategory = 20) + ggtitle("African American GSEA Dot Plot")
-
-
-#########################################################
-# genes <- c("CD20", "CD31", "CD34")  # Add more gene names as needed
-
-gene_data <- FetchData(so, vars = c(genes, "self_reported_ethnicity", "Tumor_Type"))
-
-# Reshape data to long format for ggplot2
-gene_data_long <- gene_data %>%
-  pivot_longer(cols = all_of(genes), names_to = "Gene", values_to = "Expression")
-
-# Create box plot with median, first and third quartiles, and outliers
-ggplot(gene_data_long, aes(x = self_reported_ethnicity, y = Expression, fill = Tumor_Type)) +
-  geom_boxplot(outlier.shape = 16, outlier.size = 1, position = position_dodge()) +
-  facet_wrap(~ Gene, scales = "free_y") +  # Separate box plots for each gene
-  labs(title = "Gene Expression by Race and Tumor Type", y = "Expression Level") +
-  theme_minimal() +
-  theme(
-    strip.text = element_text(size = 10, face = "bold"),  # Adjust facet labels
-    axis.text.x = element_text(angle = 45, hjust = 1)     # Rotate x-axis labels
-  )
-
-# 
-# cd20_data <- FetchData(so, vars = c("ENSG00000156738", "self_reported_ethnicity", "Tumor_Type"))
-# 
-# # Calculate mean expression of CD20 for each Race and Tumor_Type combination
-# cd20_summary <- cd20_data %>%
-#   group_by(self_reported_ethnicity, Tumor_Type) %>%
-#   summarize(mean_expression = mean(ENSG00000156738, na.rm = TRUE))
-# 
-# # Statistical testing: perform pairwise comparisons between Race and Tumor_Type pairs
-# stat_test <- cd20_data %>%
-#   group_by(Tumor_Type) %>%
-#   t_test(ENSG00000156738 ~ self_reported_ethnicity) %>%
-#   adjust_pvalue(method = "bonferroni") %>%
-#   add_significance() %>%
-#   filter(p.adj.signif != "ns") # Keep only significant results
-# 
-# # Plot the bar plot with significance annotations
-# ggplot(cd20_summary, aes(x = self_reported_ethnicity, y = mean_expression, fill = Tumor_Type)) +
-#   geom_bar(stat = "identity", position = position_dodge()) +
-#   labs(title = "CD20 Expression by Race and Tumor Type", y = "Mean CD20 Expression") +
-#   theme_minimal() +
-#   stat_pvalue_manual(stat_test, label = "p.adj.signif", 
-#                      y.position = max(cd20_summary$mean_expression) * 1.1, # Adjust as needed
-#                      bracket.size = 0.3)
-
-##################
-
-p1
-ggsave(paste0 (umap_path,"/UMAP_splitPolyb_groupRace_so.pdf"), p7, width = 18, height = 10)
-
-combined_plot <- p1 + p2 + p3 + p4 +p5+p6
-# Arrange plots into a 2x3 grid
-combined_plot <- combined_plot + plot_layout(ncol = 3)
-plot(combined_plot) 
-# Save the combined plot as a PDF file
-ggsave(paste0 (umap_path,"/1.UMAP_so.pdf"), combined_plot, width = 18, height = 10)
-
-
-table(m_so$development_stage)
-summary_polyb_race_after = as.data.frame(table(m_so$Polyp_Type, m_so$self_reported_ethnicity)) %>%
-  pivot_wider(names_from ="Var1", values_from = "Freq") %>%
-  rename(
-    Race = Var2
-  )
-summary_polyb_race_after
-
-
-## subset based on Polyp_Type
-m_final = m_so %>%
-  filter(Polyp_Type != "TV" & Polyp_Type != "UNC")
-cells_needed_final = m_final$cell_barcode
-so_final = subset(so,cells = cells_needed_final)
-
-
-
-#p1 = DimPlot(so,reduction="umap.integrated.rpca", pt.size =0.1, group.by = c("condition"))
-p1 = DimPlot(so_final,reduction=reduction_name, pt.size =0.1, group.by = c("self_reported_ethnicity"))
-p2 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Tumor_Tissue_Type")
-#p2 = DimPlot(so, reduction=reduction_name,group.by = "rna_clusters")
-p3 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Cell_Type")
-p4 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "sex")
-p5 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Polyp_Type")
-p6 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "age_group")
-p7 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Polyp_Type", group.by = "self_reported_ethnicity")
-p8 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, split.by = "Polyp_Type", group.by = "self_reported_ethnicity")
-
-p1+p2+p3
-p4+p5+p6
-
-p8
-ggsave(paste0 (umap_path,"/1.UMAP_splitPolyb_groupRace_so_NLSSLTA.pdf"), p8, width = 12, height = 10)
-
-combined_plot <- p1 + p2 + p3 + p4 +p5+p6
-# Arrange plots into a 2x3 grid
-combined_plot <- combined_plot + plot_layout(ncol = 3)
-plot(combined_plot) 
-# Save the combined plot as a PDF file
-ggsave(paste0 (umap_path,"/1.UMAP_so_NLSSLTA.pdf"), combined_plot, width = 18, height = 10)
-
-
-
-
 
 sessionInfo()
 
