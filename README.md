@@ -4,11 +4,11 @@
 ### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
 ### Background and Rationale:
-Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024]. Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: They found colon polyps: Now what? [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. (Genetic ancestry)[https://nap.nationalacademies.org/read/26902/chapter/1#ii] captures an individual’s family tree by which they inherit DNA from specific ancestors. 
+Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2024-cancer-facts-figures.html). Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. [Genetic ancestry](https://nap.nationalacademies.org/read/26902/chapter/1#ii) captures an individual’s family tree by which they inherit DNA from specific ancestors. 
 ![image](https://github.com/user-attachments/assets/d7e7f0b4-d6bc-4a73-bf41-dfa5d9052b9d)
 
 ### Objective: 
-We explore the continuum of hyperplasia and premalignant adenomas (colorectal polyps). The primary objective is to elucidate distinct immune signature disparities between normal and premalignant tissues within each racial group (Black versus White) and to ascertain their potential role in tumorigenesis.
+We explored the continuum from normal tissue, hyperplasia and premalignant adenomas (colorectal polyps). The primary objective was to elucidate distinct immune signature disparities between normal and premalignant tissues within each racial group (Black versus White) and to ascertain their potential role in tumorigenesis.
 
 ### Project Workflow:
 
@@ -26,7 +26,7 @@ We included individuals with high ancestry (defined as >70%).
 
 ### Data Collection and Processing:
 
-We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TA). We selected the median age due sparse data for individuals less than age 50 years at diagnosis.
+We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TA). We selected the median age since the age distribution was deviated towards older individuals.
 
 
 ### Statistical Analysis:
@@ -52,7 +52,7 @@ patchwork
 
 gridExtra
 
-(Seurat v5)[https://satijalab.org/seurat/] was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
+[Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
 
 
 ### Future Directions:
