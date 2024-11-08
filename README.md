@@ -56,7 +56,7 @@ We generated reduced-dimensionality (UMAP) visualization plots and bar plots of 
 Figure 1: UMAP of VAL epithelial data by ancestry and tissue type
 ![image](https://github.com/user-attachments/assets/9022897f-04b0-425e-a989-f34d54e4da71)
 
-Figure 2:
+Figure 2: UMAP of VAL epithelial data by cell-type
 ![image](https://github.com/user-attachments/assets/1669e944-df0b-4ae0-8c6d-254ad72f5d9c)
 
 Figure 3:
