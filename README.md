@@ -51,19 +51,19 @@ patchwork
 gridExtra
 
 ### Results:
-We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
+We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. The following results are for the VAL (Validation) data. 
 
-Figure 1: UMAP of VAL epithelial data by ancestry and tissue type
+Figure 1: UMAP of epithelial data by ancestry and tissue type
 ![image](https://github.com/user-attachments/assets/9022897f-04b0-425e-a989-f34d54e4da71)
 
-Figure 2: UMAP of VAL epithelial data by cell-type
+Figure 2: UMAP of epithelial data by cell-type
 ![image](https://github.com/user-attachments/assets/1669e944-df0b-4ae0-8c6d-254ad72f5d9c)
 
-Figure 3: UMAP of VAL epithelial data by polyp type
+Figure 3: UMAP of epithelial data by polyp type
 
 ![image](https://github.com/user-attachments/assets/44310fee-18bb-4a82-b87c-d8837443ec54)
 
-Figure 4: UMAP of VAL epithelial data by
+Figure 4: Dotplot VAL epithelial data displaying top 10 upregulated genes in European premalignant compared to European normal tissue.
 
 ![image](https://github.com/user-attachments/assets/823dc930-871c-4b25-83f6-7e4eebb74e94)
 
@@ -93,8 +93,5 @@ We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumo
 
 
 ### Acknowledgements
-2024 HTAN Data Jamboree
+Thank you to the 2024 HTAN Data Jamboree Team and Technical Support Team.
 
-Ino de Brujin
-
-Rowan Beck
