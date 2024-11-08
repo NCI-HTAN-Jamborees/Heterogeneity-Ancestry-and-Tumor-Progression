@@ -46,6 +46,8 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
   patchwork  
   gridExtra
 
+[Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
+
 3. Session info: [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) and [*Session info2*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_non-epithelial_set_analysis.txt) 
 
 ### Results:
@@ -75,11 +77,6 @@ Figure 5: UMAP of non-epithelials (immune) cells and bar plot of the cell-type d
 Figure 6: Feature plot of T cell markers
 
 ![image](https://github.com/user-attachments/assets/0eb89ae2-0914-4229-b5a9-38a1d2620a19)
-
-
-
-
-[Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
 
 
 ### Limitations
