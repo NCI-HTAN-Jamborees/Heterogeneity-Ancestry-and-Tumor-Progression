@@ -193,6 +193,11 @@ p13 = FeaturePlot(
 )
 ggsave(paste0 (umap_path,"/T_cell_marker.pdf"), p13, width = 8, height = 10)
 
+table(so$Tumor_Tissue_Type)
+so$Tumor_Tissue_Race <- paste(so$Tumor_Tissue_Type, so$self_reported_ethnicity, sep = "_")
+
+table(so$Tumor_Tissue_Race)
+
 
 #########################################################
 # genes <- c("CD20", "CD31", "CD34")  # Add more gene names as needed
