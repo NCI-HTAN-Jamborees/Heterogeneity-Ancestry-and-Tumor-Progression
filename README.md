@@ -38,7 +38,7 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
 ### Software requirements:  
 1. The R used in the analysis is **R4.3.2** or **R4.42**    
 2. Package used in the analysis is as following.  
-  Seurat
+  Seurat  
   tidyverse  
   ggplot2  
   Seurat  
