@@ -50,8 +50,12 @@ gridExtra
 [Seurat v5](https://satijalab.org/seurat/) was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
 
 
+### Limitations
+Diversity and representativeness in the datasets is limited. 
+
+
 ### Future Directions:
-We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumor type.  We propose to visualize the data by cell type.
+We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumor type and compare to the current findings.  We will complete analyses in European individuals. We propose to add covariates analyses including sex and age group for African American and European individuals for normal and premalignant tissue. 
 
 
 ### Acknowledgements
