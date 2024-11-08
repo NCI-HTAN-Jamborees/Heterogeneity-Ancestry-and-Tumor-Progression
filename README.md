@@ -59,11 +59,11 @@ Figure 1: UMAP of VAL epithelial data by ancestry and tissue type
 Figure 2: UMAP of VAL epithelial data by cell-type
 ![image](https://github.com/user-attachments/assets/1669e944-df0b-4ae0-8c6d-254ad72f5d9c)
 
-Figure 3:
+Figure 3: UMAP of VAL epithelial data by polyp type
 
 ![image](https://github.com/user-attachments/assets/44310fee-18bb-4a82-b87c-d8837443ec54)
 
-Figure 4:
+Figure 4: UMAP of VAL epithelial data by
 
 ![image](https://github.com/user-attachments/assets/823dc930-871c-4b25-83f6-7e4eebb74e94)
 
