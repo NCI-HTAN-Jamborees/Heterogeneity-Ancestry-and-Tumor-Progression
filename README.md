@@ -35,20 +35,18 @@ TAC: transit amplifying cells are a unique type of progenitor cells crticial for
 ### Statistical Analysis:
 We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue, and premalignant serrated polyp tissue, and tubular adenoma tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
 
-### Installation:
-R Programming (R 4.3.2) and the following packages were used for this project: 
+### Software requirements:  
+1. The R used in the analysis is **R4.3.2** or **R4.42**    
+2. Package used in the analysis is as following.  
+  Seurat
+  tidyverse  
+  ggplot2  
+  Seurat  
+  cowplot  
+  patchwork  
+  gridExtra
 
-tidyverse
-
-ggplot2
-
-Seurat
-
-cowplot
-
-patchwork
-
-gridExtra
+3. Session info: [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) and [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) 
 
 ### Results:
 We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. The following results are for the VAL (Validation) set. Overall, Black individuals had the highest prevalence of tubular adenomas, which is associated with increased risk of colorectal cancer. 
