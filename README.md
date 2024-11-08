@@ -21,14 +21,14 @@ The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial trans
 
 
 ### Data Collection and Processing:
-We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL: normal; SSL: sessile serrated adenoma; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. 
-The single cell data included:
+We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL: normal; SSL: sessile serrated adenoma; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. We examined the epithelial cells which comprises of different mature cell types, which are separated into absorptive cells (enterocytes) and secretory (goblet, enteroendocrine and tuft cell) lineages. 
+The VUMC CellxGene single epithelial cell dataset included:
 
-ASC: apoptosis-associated speck-like protein containing a caspase recruitment domain 
+ASC: Adenosquamous carcinoma cells have neoplastic potential, it arises from glandular cells 
 
-ABS: absorptive cells 
+ABS: absorptive cells, absorbs nutrients
 
-TAC: transit amplifying cells 
+TAC: transit amplifying cells are a unique type of progenitor cells crticial for human tissue regeneration and cell turnover.
 
 
 
