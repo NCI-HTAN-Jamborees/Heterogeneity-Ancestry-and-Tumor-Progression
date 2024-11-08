@@ -36,7 +36,7 @@ TAC: transit amplifying cells are a unique type of progenitor cells crticial for
 We conducted a comparative analysis of single-cell RNA sequencing data from normal tissue, and premalignant serrated polyp tissue, and tubular adenoma tissue samples from Black and White patients. Wilcoxon rank-sum test was used to compare continuous distributions between two groups.
 
 ### Software requirements:  
-1. The R used in the analysis is **R4.3.2** or **R4.42**    
+1. The R used in the analysis is **R4.3.2** or **R4.4.2**    
 2. Package used in the analysis is as following.  
   Seurat  
   tidyverse  
