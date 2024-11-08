@@ -52,7 +52,7 @@ dim(biospecimens_df)
 #colnames(biospecimens_df_need) = c("HTAN_Biospecimen_ID","HTAN_Participant_ID", "Collection_Days_from_Index", "Storage_Method", "Processing_Days_from_Index", "Preservation_Method", "Tumor_Tissue_Type")
 biospecimens_df_need = biospecimens_df[,c("HTAN.Biospecimen.ID","Tumor.Tissue.Type")]
 colnames(biospecimens_df_need) = c("HTAN_Biospecimen_ID","Tumor_Tissue_Type")
-biospecimens_df_need
+head(biospecimens_df_need)
 cat("There are ",length(unique(biospecimens_df_need$HTAN_Biospecimen_ID)), " biospecimens from  Vanderbilt Colon Molecular Atlas Project")
 #head(biospecimens_df_need)
 as.data.frame(table(biospecimens_df_need$Tumor_Tissue_Type))
@@ -159,10 +159,8 @@ m_final_add$Race_PolypType = factor(m_final_add$Race_TumorType, levels = c("Euro
 so_final = AddMetaData(so_final,m_final_add)
 
 
-#p1 = DimPlot(so,reduction="umap.integrated.rpca", pt.size =0.1, group.by = c("condition"))
 p1 = DimPlot(so_final,reduction=reduction_name, pt.size =0.1, group.by = c("self_reported_ethnicity"))
 p2 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Tumor_Tissue_Type")
-#p2 = DimPlot(so, reduction=reduction_name,group.by = "rna_clusters")
 p3 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Cell_Type")
 p4 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "sex")
 p5 = DimPlot(so_final, reduction=reduction_name,pt.size =0.1, group.by = "Polyp_Type")
@@ -316,11 +314,180 @@ featureplot_splitRaceTumor <- wrap_plots(plot_list_racetumor, ncol = 1)
 featureplot_splitRaceTumor
 ggsave(paste0(feature_path,"/feature_EP_featureplot_splitRaceTumor.pdf"),featureplot_splitRaceTumor,height=14,width =14)
 
-## example for vln plot for markers
+## example for vlnplot for markers
+
 vlnplot = VlnPlot(so_final, features = features_EP_ensembl, pt.size = 0, ncol = 2, y.max=5,group.by = "Race_TumorType") 
 ggsave(paste0(feature_path,"/feature_EP_vlnplot_RaceTumor.pdf"),vlnplot,height=10,width=8)
 
-saveRDS(so_final,paste0(output_path,"object_final.rds"))
+so_final
+
+table(m$donor_id,m$self_reported_ethnicity)
+m_sub = m[,c("donor_id","self_reported_ethnicity","sex")] %>%
+  distinct()
+table(m_sub$self_reported_ethnicity)
+table(m_sub$sex,m_sub$self_reported_ethnicity)
+
+# DE analysis
+# 1.compare American_african group Premalignant vs Normal Tumor_tissue_type
+# 2.compare European group Premalignant vs Normal Tumor_tissue_type
+findmarker_dir = paste0(output_path,"/markers")
+dir.create(marker_dir,showWarnings = F)
+colnames(so_final@meta.data)
+table(m_final$Race_TumorType)
+so_working = so_final
+Idents(so_final) = 'Race_TumorType'
+
+markers_AA_prem_norm <- so_final %>% FindMarkers(assay='RNA', ident.1 ="African American_Premalignant",
+                                       ident.2 = "African American_Normal",
+                                       logfc.threshold = -Inf, , min.pct=0.25, min.diff.pct = -Inf)
+dim(markers_AA_prem_norm)
+markers_AA_prem_norm$gene = rownames(markers_AA_prem_norm)
+head(markers_AA_prem_norm)
+columns(org.Hs.eg.db)
+df_entrezid =  data.frame(
+  gene_entrezid = mapIds(
+    org.Hs.eg.db,
+    keys = unique(markers_AA_prem_norm$gene),
+    keytype = "ENSEMBL",
+    column = "ENTREZID",
+    # This will keep only the first mapped value for each Ensembl ID
+    multiVals = "first"
+  )
+) %>%
+  tibble::rownames_to_column("Ensembl")
+
+head(df_entrezid)
+
+AA_marker_mapped_df <- data.frame(
+  gene_symbol = mapIds(
+    # Replace with annotation package for the organism relevant to your data
+    org.Hs.eg.db,
+    keys = unique(markers_AA_prem_norm$gene),
+    # Replace with the type of gene identifiers in your data
+    keytype = "ENSEMBL",
+    # Replace with the type of gene identifiers you would like to map to
+    column = "SYMBOL",
+    # This will keep only the first mapped value for each Ensembl ID
+    multiVals = "first"
+  )
+) %>%
+  # If an Ensembl gene identifier doesn't map to a gene symbol, drop that
+  # from the data frame
+  dplyr::filter(!is.na(gene_symbol)) %>%
+  # Make an `Ensembl` column to store the rownames
+  tibble::rownames_to_column("Ensembl") %>%
+  dplyr::full_join(df_entrezid, by = c("Ensembl" = "Ensembl")) %>%
+  # Now let's join the rest of the expression data
+  dplyr::full_join(markers_AA_prem_norm, by = c("Ensembl" = "gene")) %>%
+  mutate(gene_symbol = ifelse(is.na(gene_symbol), Ensembl, gene_symbol))
+
+AA_marker_mapped_df = AA_marker_mapped_df %>% 
+  arrange (p_val_adj) 
+
+AA_de = AA_marker_mapped_df %>%
+  filter(p_val <0.01) %>%
+  filter(avg_log2FC>2 | avg_log2FC<(-2))
+write.csv(AA_marker_mapped_df,paste0(findmarker_dir,"/AA_marker_premalignant_vs_normal_all.csv"),row.names=F,quote=F)
+write.csv(AA_de,paste0(findmarker_dir,"/AA_marker_premalignant_vs_normal_p0.01_log2fc2.csv"),row.names=F,quote=F)
+dim(AA_de)
+AA_de
+dim(EU_de)
+## 
+markers_EU_prem_norm <- so_final %>% FindMarkers(assay='RNA', ident.1 ="European_Premalignant",
+                                                ident.2 = "European_Normal",
+                                                logfc.threshold = -Inf, , min.pct=0.25, min.diff.pct = -Inf)
+dim(markers_EU_prem_norm)
+markers_EU_prem_norm$gene = rownames(markers_EU_prem_norm)
+head(markers_EU_prem_norm)
+columns(org.Hs.eg.db)
+df_entrezid =  data.frame(
+  gene_entrezid = mapIds(
+    org.Hs.eg.db,
+    keys = unique(markers_EU_prem_norm$gene),
+    keytype = "ENSEMBL",
+    column = "ENTREZID",
+    # This will keep only the first mapped value for each Ensembl ID
+    multiVals = "first"
+  )
+) %>%
+  tibble::rownames_to_column("Ensembl")
+
+head(df_entrezid)
+
+EU_marker_mapped_df <- data.frame(
+  gene_symbol = mapIds(
+    # Replace with annotation package for the organism relevant to your data
+    org.Hs.eg.db,
+    keys = unique(markers_EU_prem_norm$gene),
+    # Replace with the type of gene identifiers in your data
+    keytype = "ENSEMBL",
+    # Replace with the type of gene identifiers you would like to map to
+    column = "SYMBOL",
+    # This will keep only the first mapped value for each Ensembl ID
+    multiVals = "first"
+  )
+) %>%
+  # If an Ensembl gene identifier doesn't map to a gene symbol, drop that
+  # from the data frame
+  dplyr::filter(!is.na(gene_symbol)) %>%
+  # Make an `Ensembl` column to store the rownames
+  tibble::rownames_to_column("Ensembl") %>%
+  dplyr::full_join(df_entrezid, by = c("Ensembl" = "Ensembl")) %>%
+  # Now let's join the rest of the expression data
+  dplyr::full_join(markers_EU_prem_norm, by = c("Ensembl" = "gene")) %>%
+  mutate(gene_symbol = ifelse(is.na(gene_symbol), Ensembl, gene_symbol))
+
+EU_marker_mapped_df = EU_marker_mapped_df %>% 
+  arrange (p_val_adj) 
+dim(EU_marker_mapped_df)
+
+EU_de = EU_marker_mapped_df %>%
+  filter(p_val <0.01) %>%
+  filter(avg_log2FC>2 | avg_log2FC<(-2))
+dim(EU_de)
+write.csv(EU_marker_mapped_df,paste0(findmarker_dir,"/EU_marker_premalignant_vs_normal_all.csv"),row.names=F,quote=F)
+write.csv(EU_de,paste0(findmarker_dir,"/EU_marker_premalignant_vs_normal_p0.01_log2fc2.csv"),row.names=F, quote=F)
+
+top10_AA = AA_de %>% filter(avg_log2FC>0) %>%
+   top_n(n =10, wt = avg_log2FC) %>%
+  arrange(p_val_adj)
+pd10_AA <- DotPlot(
+  object = so_final,
+  group.by = "Race_TumorType",
+  features = unique(top10_AA$Ensembl)
+) +
+  scale_x_discrete(labels = function(x) ensembl_to_symbol[x]) +  # Map Ensembl to gene_symbol
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+pd10_AA
+ggsave(
+  plot = pd10_AA,
+  height = 4,
+  width = 10,
+  filename = paste0(marker_path, "/3.AA_top10Marker_dotplot_name.pdf"))
+
+sum(top10_EU %in% top10_AA)
+sum( AA_de %in%  EU_de)
+top10_EU = EU_de %>% filter(avg_log2FC>0) %>%
+  top_n(n =10, wt = avg_log2FC) %>%
+  arrange(p_val_adj)
+top10_EU
+pd10 <- DotPlot(
+  object = so_final,
+  group.by = "Race_TumorType",
+  features = unique(top10_EU$Ensembl)
+) +
+  scale_x_discrete(labels = function(x) ensembl_to_symbol[x]) +  # Map Ensembl to gene_symbol
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+pd10
+
+ggsave(
+  plot = pd10,
+  height = 4,
+  width = 10,
+  filename = paste0(marker_path, "/3.EU_top10Marker_dotplot_name.pdf"))
+
+
+#saveRDS(so_final,paste0(output_path,"object_final.rds"))
 
 sessionInfo()
 
