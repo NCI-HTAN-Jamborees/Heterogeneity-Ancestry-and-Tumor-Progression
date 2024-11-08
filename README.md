@@ -53,7 +53,7 @@ gridExtra
 ### Results:
 We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
 
-Figure 1:
+Figure 1: UMAP of VAL epithelial data by ancestry and tissue type
 ![image](https://github.com/user-attachments/assets/9022897f-04b0-425e-a989-f34d54e4da71)
 
 Figure 2:
