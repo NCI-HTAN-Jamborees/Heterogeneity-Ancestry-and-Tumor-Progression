@@ -177,13 +177,79 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
 bar_cluster
 ggsave(plot = bar_cluster,height =8,width =6, filename = paste0(umap_path, "/barplot_cluster_race_tumor_celltype.pdf"))
 
-# B-cell: CD20, CD21, CD19
-# Fibroblasts: VIM, FAP, FSP1, SMA
-# T-cell: CD8, CD4, CD3, CD28
-# MYE: CD68, CD80, CD86, CD206, CD163
-# PLA: CD38, MUM1
-# MAS: CD117
-# END: CD31, CD34, VEGF
+# B-cell: CD20 (ENSG00000156738), CD21 (ENSG00000117322), CD19 (ENSG00000177455)
+# Fibroblasts: VIM (ENSG00000026025), FAP (ENSG00000078098), FSP1 (ENSG00000042286), SMA (ENSG00000172062)
+# T-cell: CD8 (ENSG00000153563), CD4 (ENSG00000010610), CD3 (ENSG00000198851), CD28 (ENSG00000178562)
+# MYE: CD68 (ENSG00000129226), CD80 (ENSG00000121594), CD86 (ENSG00000114013), CD206 (ENSG00000260314), CD163 (ENSG00000177575)
+# PLA: CD38 (ENSG00000004468), MUM1 (ENSG00000160953)
+# MAS: CD117 (ENSG00000157404)
+# END: CD31 (ENSG00000261371), CD34 (ENSG00000174059), VEGF (ENSG00000112715)
+
+genes <- c("ENSG00000156738", "ENSG00000117322", "ENSG00000177455")
+
+p12 = FeaturePlot(
+  object = so,
+  features = genes,
+  split.by = "self_reported_ethnicity",
+  reduction = "umap" # or "tsne", depending on your reduction
+)
+ggsave(paste0 (umap_path,"/B_cell_marker.pdf"), p12, width = 8, height = 8)
+
+# T-cell: CD8 (ENSG00000153563), CD4 (ENSG00000010610), CD3 (ENSG00000198851), CD28 (ENSG00000178562)
+genes <- c("ENSG00000153563", "ENSG00000010610", "ENSG00000198851", "ENSG00000178562")
+p13 = FeaturePlot(
+  object = so,
+  features = genes,
+  split.by = "self_reported_ethnicity",
+  reduction = "umap" # or "tsne", depending on your reduction
+)
+ggsave(paste0 (umap_path,"/T_cell_marker.pdf"), p13, width = 8, height = 10)
+
+
+#########################################################
+# genes <- c("CD20", "CD31", "CD34")  # Add more gene names as needed
+
+gene_data <- FetchData(so, vars = c(genes, "self_reported_ethnicity", "Tumor_Type"))
+
+# Reshape data to long format for ggplot2
+gene_data_long <- gene_data %>%
+  pivot_longer(cols = all_of(genes), names_to = "Gene", values_to = "Expression")
+
+# Create box plot with median, first and third quartiles, and outliers
+ggplot(gene_data_long, aes(x = self_reported_ethnicity, y = Expression, fill = Tumor_Type)) +
+  geom_boxplot(outlier.shape = 16, outlier.size = 1, position = position_dodge()) +
+  facet_wrap(~ Gene, scales = "free_y") +  # Separate box plots for each gene
+  labs(title = "Gene Expression by Race and Tumor Type", y = "Expression Level") +
+  theme_minimal() +
+  theme(
+    strip.text = element_text(size = 10, face = "bold"),  # Adjust facet labels
+    axis.text.x = element_text(angle = 45, hjust = 1)     # Rotate x-axis labels
+  )
+
+# 
+# cd20_data <- FetchData(so, vars = c("ENSG00000156738", "self_reported_ethnicity", "Tumor_Type"))
+# 
+# # Calculate mean expression of CD20 for each Race and Tumor_Type combination
+# cd20_summary <- cd20_data %>%
+#   group_by(self_reported_ethnicity, Tumor_Type) %>%
+#   summarize(mean_expression = mean(ENSG00000156738, na.rm = TRUE))
+# 
+# # Statistical testing: perform pairwise comparisons between Race and Tumor_Type pairs
+# stat_test <- cd20_data %>%
+#   group_by(Tumor_Type) %>%
+#   t_test(ENSG00000156738 ~ self_reported_ethnicity) %>%
+#   adjust_pvalue(method = "bonferroni") %>%
+#   add_significance() %>%
+#   filter(p.adj.signif != "ns") # Keep only significant results
+# 
+# # Plot the bar plot with significance annotations
+# ggplot(cd20_summary, aes(x = self_reported_ethnicity, y = mean_expression, fill = Tumor_Type)) +
+#   geom_bar(stat = "identity", position = position_dodge()) +
+#   labs(title = "CD20 Expression by Race and Tumor Type", y = "Mean CD20 Expression") +
+#   theme_minimal() +
+#   stat_pvalue_manual(stat_test, label = "p.adj.signif", 
+#                      y.position = max(cd20_summary$mean_expression) * 1.1, # Adjust as needed
+#                      bracket.size = 0.3)
 
 ##################
 
