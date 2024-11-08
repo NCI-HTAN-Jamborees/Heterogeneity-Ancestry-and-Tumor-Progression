@@ -17,14 +17,14 @@ Figure 1.  Workflow
 
 
 ### Data:
-The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial transcriptomics data used in this project were accessed using the HTAN Data Portal and Google BigQuery v6. The original data is described by [Chen et al. 2021](https://www.cell.com/cell/fulltext/S0092-8674(21)01381-7?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0092867421013817%3Fshowall%3Dtrue).  We accessed scRNA-seq Discovery (DIS) set and the Validation (VAL) set using [CellxGene](https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd). 
+The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial transcriptomics data used in this project were accessed using the HTAN Data Portal and Google BigQuery v6. The original data is described by [Chen et al. 2021](https://www.cell.com/cell/fulltext/S0092-8674(21)01381-7?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0092867421013817%3Fshowall%3Dtrue).  We accessed scRNA-seq Discovery (DIS) set, the Validation (VAL) set, non-epithelial set using [CellxGene](https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd). 
 
 
 ### Data Collection and Processing:
 We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL: normal; SSL: sessile serrated adenoma; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. We examined the epithelial cells which comprises of different mature cell types, which are separated into absorptive cells (enterocytes) and secretory (goblet, enteroendocrine and tuft cell) lineages. 
 The VUMC CellxGene single epithelial cell dataset included:
 
-ASC: Adenosquamous carcinoma cells have neoplastic potential, it arises from glandular cells. The coexistance of squamous compents is associated with poorer prognosis. 
+ASC: Adenosquamous carcinoma cells have neoplastic potential, it arises from glandular cells. The coexistance of squamous compents is associated with poorer prognosis. Chen et al: ASCs resembled colonic stem and progenitor cells,
 
 ABS: absorptive cells function in the uptake of metabolites and absorbtion of nutrients
 
@@ -51,7 +51,7 @@ patchwork
 gridExtra
 
 ### Results:
-We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. The following results are for the VAL (Validation) data. 
+We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. The following results are for the VAL (Validation) set. Overall, Black individuals had the highest prevalence of tubular adenomas, which is associated with increased risk of colorectal cancer. 
 
 Figure 1: UMAP of epithelial data by ancestry and tissue type
 ![image](https://github.com/user-attachments/assets/9022897f-04b0-425e-a989-f34d54e4da71)
@@ -63,18 +63,18 @@ Figure 3: UMAP of epithelial data by polyp type
 
 ![image](https://github.com/user-attachments/assets/44310fee-18bb-4a82-b87c-d8837443ec54)
 
-Figure 4: Dotplot VAL epithelial data displaying top 10 upregulated genes in European premalignant compared to European normal tissue.
+Figure 4: Dotplot epithelial data displaying top 10 upregulated genes in European premalignant compared to European normal tissue.
 
 ![image](https://github.com/user-attachments/assets/823dc930-871c-4b25-83f6-7e4eebb74e94)
 
 ### Non Epithelial 
 
-Figure 5:
+Figure 5: UMAP of non-epithelials (immune) cells and bar plot of the cell-type distribution.
 
 ![image](https://github.com/user-attachments/assets/1fb39bbf-3861-4c25-87ca-cc1a57dfe710)
 
 
-Figure 6:
+Figure 6: Feature plot of T cell markers
 
 ![image](https://github.com/user-attachments/assets/0eb89ae2-0914-4229-b5a9-38a1d2620a19)
 
