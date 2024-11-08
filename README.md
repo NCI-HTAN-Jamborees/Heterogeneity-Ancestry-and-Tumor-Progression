@@ -4,7 +4,7 @@
 ### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
 ### Background and Rationale:
-Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2024-cancer-facts-figures.html). Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the single cell drivers of progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. [Genetic ancestry](https://nap.nationalacademies.org/read/26902/chapter/1#ii) captures an individual’s family tree by which they inherit DNA from specific ancestors. 
+Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024](https://www.cancer.org/research/cancer-facts-statistics/all-cancer-facts-figures/2024-cancer-facts-figures.html). Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the single cell drivers of progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. [Genetic ancestry](https://nap.nationalacademies.org/read/26902/chapter/1#ii) captures an individual’s family tree by which they inherit DNA from specific ancestors. We examined cell populations, including ABS (absortive cell), SSC (abnormal cell),  TAC (transit amplifying cell), STM (intestinal crypt stem cell of colon), ASC (adenosquamous carcinoma cell), GOB (goblet cell), TUF (Brush cell), CT (intestinal crypt stem cell of colon), etc.
 ![image](https://github.com/user-attachments/assets/d7e7f0b4-d6bc-4a73-bf41-dfa5d9052b9d)
 
 ### Objective: 
@@ -21,10 +21,10 @@ The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial trans
 
 
 ### Data Collection and Processing:
-We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL: normal; SSL: sessile serrated adenoma; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. 
+We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years). Polyps were histologically classified (NL: normal; SSL: sessile serrated lesion; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. 
 The single cell data included:
 
-ASC: apoptosis-associated speck-like protein containing a caspase recruitment domain 
+ASC: Adenosquamous carcinoma, arises from glandular cells in the colon mucosa 
 
 ABS: absorptive cells 
 
@@ -37,7 +37,7 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
 
 
 ### Results:
-We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
+We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. In our data, Black individuals had the highest prevalence of tubular adenomas, which is associated with increased risk of colorectal cancer.
 
 
 
@@ -68,4 +68,4 @@ We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumo
 
 
 ### Acknowledgements
-2024 HTAN Data Jamboree
+2024 HTAN Data Jamboree and guidance from Ino de Bruijn.
