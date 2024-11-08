@@ -4,7 +4,7 @@
 ### Team Members: Jiaying Lai, Ying Wu, Mohamed Abdalla, Aditi Hazra
 
 ### Background and Rationale:
-Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024]. Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: They found colon polyps: Now what? [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. We propose to evaluate the single cell RNA sequencing (scRNAseq) data by genetic ancestry, an individual’s family tree by which they inherit DNA from specific ancestors [Reference National Academies of Science, Engineering, and Medicine (NASEM)]. 
+Black patients have an almost 20% higher incidence of colorectal cancer compared to Non-Hispanic White (NHW) patients [ACS Cancer Facts and Figures 2024]. Compelling evidence suggests there is heterogeneity in tumor microenvironment between Black or African American and European American cancer patients. Why immuno-inflammation pathways and immune cells are upregulated in Black patients remains unknown. Furthermore, the progression from normal to colorectal adenoma (polyp) to invasive colorectal cancer is understudied in Black patients (Image: SciPro/Getty Images; Reference: They found colon polyps: Now what? [Harvard Health. July 20, 2023](https://www.health.harvard.edu/diseases-and-conditions/they-found-colon-polyps-now-what). However, population descriptors, including the social construct of race, may not adequately capture the complex patterns of continuous human genetic variation. To address this gap, we examined the single cell RNA sequencing (scRNAseq) data by genetic ancestry. Genetic ancestry captures an individual’s family tree by which they inherit DNA from specific ancestors [Reference National Academies of Science, Engineering, and Medicine (NASEM)]. 
 ![image](https://github.com/user-attachments/assets/d7e7f0b4-d6bc-4a73-bf41-dfa5d9052b9d)
 
 ### Objective: 
@@ -17,14 +17,16 @@ Figure 1.  Workflow
 
 
 ### Data:
-The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial transcriptomics data used in this project were accessed using the HTAN Data Portal and Google BigQuery v6. We accessed scRNA-seq Discovery (DIS) set and the Validation (VAL) set using [CellxGene](https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd).
+The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial transcriptomics data used in this project were accessed using the HTAN Data Portal and Google BigQuery v6. 
+scRNA-seq Data: 
+We accessed scRNA-seq Discovery (DIS) set and the Validation (VAL) set using [CellxGene](https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd).
+Ancestry Data:
+We included individuals with high ancestry (defined as >70%).  
 
-Ancestry Data (TBA):
-We define high ancestry as 70%.
 
 ### Data Collection and Processing:
 
-We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TL). We selected the median age due sparse data for individuals less than age 50 years at diagnosis.
+We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. The dataset was then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TA). We selected the median age due sparse data for individuals less than age 50 years at diagnosis.
 
 
 ### Statistical Analysis:
@@ -37,8 +39,14 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
 
 ### Installation:
 R Programming (R 4.3.2) and the following packages were used for this project: 
-Seurat 5
-Seurat Object_5.0.1
+tidyverse
+ggplot2
+Seurat
+cowplot
+patchwork
+gridExtra
+
+(Seurat v5)[https://satijalab.org/seurat/] was used to identify and interpret cellular heterogeneity in normal and premalignant colorectal tissue (Seurat Object_5.0.1).
 
 
 ### Future Directions:
