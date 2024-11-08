@@ -46,7 +46,7 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
   patchwork  
   gridExtra
 
-3. Session info: [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) and [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) 
+3. Session info: [*Session info1*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_val_dis_set.txt) and [*Session info2*](https://github.com/NCI-HTAN-Jamborees/Heterogeneity-Ancestry-and-Tumor-Progression/blob/main/scripts/session_info_non-epithelial_set_analysis.txt) 
 
 ### Results:
 We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder]. The following results are for the VAL (Validation) set. Overall, Black individuals had the highest prevalence of tubular adenomas, which is associated with increased risk of colorectal cancer. 
