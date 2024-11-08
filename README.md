@@ -69,5 +69,7 @@ We propose to evaluate invasive colorectal cancer scRNAseq data by race and tumo
 
 ### Acknowledgements
 2024 HTAN Data Jamboree
+
 Ino de Brujin
+
 Rowan Beck
