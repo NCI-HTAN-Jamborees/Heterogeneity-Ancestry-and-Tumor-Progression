@@ -61,6 +61,8 @@ Figure 2:
 
 Figure 3:
 
+![image](https://github.com/user-attachments/assets/44310fee-18bb-4a82-b87c-d8837443ec54)
+
 
 
 
