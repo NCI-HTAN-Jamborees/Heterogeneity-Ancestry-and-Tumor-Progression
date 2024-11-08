@@ -63,6 +63,16 @@ Figure 3:
 
 ![image](https://github.com/user-attachments/assets/44310fee-18bb-4a82-b87c-d8837443ec54)
 
+Figure 4:
+
+![image](https://github.com/user-attachments/assets/823dc930-871c-4b25-83f6-7e4eebb74e94)
+
+### Non Epithelial 
+
+Figure 5:
+
+![image](https://github.com/user-attachments/assets/1fb39bbf-3861-4c25-87ca-cc1a57dfe710)
+
 
 
 
