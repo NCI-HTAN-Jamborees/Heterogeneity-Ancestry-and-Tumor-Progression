@@ -21,7 +21,10 @@ The Vanderbilt University Medical Center (VUMC) scRNA-seq data and spatial trans
 
 
 ### Data Collection and Processing:
-We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL, SSL, TA). We selected the median age since the age distribution was deviated towards older individuals.
+We accessed and extracted data from the HTAN portal and subsequently matched sample IDs with ancestry and clinical annotations. For this project, we included individuals with high ancestry (defined as >70%).  The CellxGene datasets were then filtered based on self-reported race/ancestry, focusing on individuals identified as Black, who were represented solely by normal and premalignant sample types. Additionally, we incorporated demographic variables, including sex (female, male) and age-stratified by the median (≤60 years, >60 years), as well as polyp classification (NL: normal; SSL: sessile serrated adenoma; TA: tubular adenoma). We selected the median age since the age distribution was deviated towards older individuals. The single cell data included:
+ASC: apoptosis-associated speck-like protein containing a caspase recruitment domain 
+ABS: absorptive cells 
+TAC: transit amplifying cells 
 
 
 ### Statistical Analysis:
@@ -30,6 +33,7 @@ We conducted a comparative analysis of single-cell RNA sequencing data from norm
 
 ### Results:
 We generated reduced-dimensionality (UMAP) visualization plots and bar plots of single epithelial cells in transcriptome space for normal and premalignant data by ancestry [Results folder].
+
 
 
 ### Installation:
