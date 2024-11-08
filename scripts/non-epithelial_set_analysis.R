@@ -92,6 +92,8 @@ write.table(summary_tumor_race_after,"results/non-epithelial/summary_tumor_race_
 
 #saveRDS(so,"CellxGene/Filtered_no_Epithelial.rds")
 
+so <- readRDS("CellxGene/Filtered_no_Epithelial.rds")
+
 cell.size = 0.1
 resolution = 0.2
 reduction_name = "umap"
@@ -152,7 +154,7 @@ so$Tumor_Type_Race <- paste(so$Tumor_Type, so$self_reported_ethnicity, sep = "_"
 
 p11 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type_Race", ncol = 2, group.by = "Cell_Type")
 
-ggsave(paste0 (umap_path,"/UMAP_splitRaceTumorType_groupCellType_so.pdf"), p11, width = 12, height = 5)
+ggsave(paste0 (umap_path,"/UMAP_splitRaceTumorType_groupCellType_so.pdf"), p11, width = 12, height = 10)
 
 
 long_data_cluster <- m_so[,c("self_reported_ethnicity","Tumor_Type","Cell_Type")] %>%
@@ -206,6 +208,71 @@ p13 = FeaturePlot(
 ggsave(paste0 (umap_path,"/T_cell_marker.pdf"), p13, width = 8, height = 10)
 
 
+table(so$Tumor_Tissue_Type)
+so$Tumor_Tissue_Race <- paste(so$Tumor_Tissue_Type, so$self_reported_ethnicity, sep = "_")
+
+table(so$Tumor_Tissue_Race)
+
+Idents(so) <- so$Tumor_Tissue_Race
+AA_markers <- FindMarkers(so, ident.2 = "Normal_African American", ident.1 = "Premalignant_African American")
+# EU_markers <- FindMarkers(so, ident.2 = "Normal_European", ident.1 = "Premalignant_European")
+
+AA_markers <- AA_markers %>%
+  rownames_to_column(var = "gene")
+
+# EU_markers <- EU_markers %>%
+#   rownames_to_column(var = "gene")
+
+# Step 1: Convert Ensembl IDs to gene symbols
+AA_gene_conversion <- AnnotationDbi::select(
+  org.Hs.eg.db,
+  keys = AA_markers$gene,
+  keytype = "ENSEMBL",
+  columns = "SYMBOL"
+)
+
+# Rename columns for clarity
+colnames(AA_gene_conversion) <- c("ensembl_gene_id", "gene_name")
+
+# Merge the converted gene names back with the markers data
+AA_markers <- AA_markers %>%
+  left_join(AA_gene_conversion, by = c("gene" = "ensembl_gene_id"))
+
+# Step 2: Filter based on |avg_log2FC| > 2 and p_val_adj < 0.01
+AA_filtered_markers <- AA_markers %>%
+  filter(!is.na(gene_name), abs(avg_log2FC) > 2, p_val_adj < 0.01) %>%
+  arrange(desc(avg_log2FC)) %>%
+  distinct(gene_name, .keep_all = TRUE)
+
+write.csv(AA_filtered_markers, "results/non-epithelial/AA_filtered_markers.csv")
+
+###############################################################
+# Prepare the ranked gene list for GSEA
+AA_gsea_gene_list <- AA_filtered_markers %>%
+  pull(avg_log2FC, gene_name)  # Create a named vector with avg_log2FC values
+
+# Ensure the gene list is sorted in decreasing order of avg_log2FC
+AA_gsea_gene_list <- sort(AA_gsea_gene_list, decreasing = TRUE)
+
+# Step 3: Perform GSEA using clusterProfiler
+AA_gsea_results <- gseGO(
+  geneList = AA_gsea_gene_list,
+  ont = "ALL",           # Use "BP", "MF", or "CC" for specific ontology
+  OrgDb = org.Hs.eg.db,  # Database for human genes
+  keyType = "SYMBOL",    # We are using gene symbols now
+  minGSSize = 5,        # Minimum gene set size
+  maxGSSize = 1000,       # Maximum gene set size
+  pvalueCutoff = 0.1,   # Adjust as needed
+  verbose = FALSE
+)
+
+# View GSEA results
+head(AA_gsea_results@result)
+
+# Optional: Visualize the GSEA results
+dotplot(AA_gsea_results, showCategory = 20) + ggtitle("African American GSEA Dot Plot")
+
+
 #########################################################
 # genes <- c("CD20", "CD31", "CD34")  # Add more gene names as needed
 
@@ -254,7 +321,7 @@ ggplot(gene_data_long, aes(x = self_reported_ethnicity, y = Expression, fill = T
 ##################
 
 p1
-ggsave(paste0 (umap_path,"/UMAP_splitPolyb_groupRace_so.pdf"), p7, width = 18, height = 5)
+ggsave(paste0 (umap_path,"/UMAP_splitPolyb_groupRace_so.pdf"), p7, width = 18, height = 10)
 
 combined_plot <- p1 + p2 + p3 + p4 +p5+p6
 # Arrange plots into a 2x3 grid
@@ -296,7 +363,7 @@ p1+p2+p3
 p4+p5+p6
 
 p8
-ggsave(paste0 (umap_path,"/1.UMAP_splitPolyb_groupRace_so_NLSSLTA.pdf"), p8, width = 12, height = 5)
+ggsave(paste0 (umap_path,"/1.UMAP_splitPolyb_groupRace_so_NLSSLTA.pdf"), p8, width = 12, height = 10)
 
 combined_plot <- p1 + p2 + p3 + p4 +p5+p6
 # Arrange plots into a 2x3 grid
