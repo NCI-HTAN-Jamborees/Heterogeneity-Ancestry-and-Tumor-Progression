@@ -6,7 +6,7 @@ library(patchwork)
 library(gridExtra)
 
 ## setup working dir and results dir
-working_dir = "/data/wuy24/HTAN"
+working_dir = getwd()
 setwd(working_dir)
 output_path = paste0(working_dir,"/results/non-epithelial")
 dir.create(output_path, showWarnings = F)
@@ -28,7 +28,7 @@ plot_path = output_path
 ############################## Part 1: filtering################################
 
 #This file is downloaded from https://cellxgene.cziscience.com/collections/a48f5033-3438-4550-8574-cdff3263fdfd
-object <- readRDS(paste0(input_path,"/VAL_DIS_Non_Epithelial.rds"))
+object <- readRDS(paste0(input_path,"/non-epithelial_data.rds"))
 colors <- c('lightgrey', 'navy')
 
 cell.size = 0.1
@@ -40,7 +40,7 @@ m = object@meta.data %>%
   rownames_to_column(var ="cell_barcode")
 
 # Load metadata file with biospecimens info
-biospecimens_df= read.table("Heterogeneity-Ancestry-and-Tumor-Progression/metadata/biospecimens.tsv",header=T,sep="\t")
+biospecimens_df= read.table("metadata/biospecimens.tsv",header=T,sep="\t")
 dim(biospecimens_df)
 biospecimens_df_need = biospecimens_df[,c("HTAN.Biospecimen.ID","Tumor.Tissue.Type")]
 colnames(biospecimens_df_need) = c("HTAN_Biospecimen_ID","Tumor_Tissue_Type")
@@ -90,7 +90,7 @@ summary_tumor_race_after = as.data.frame(table(m_needed$Tumor_Tissue_Type, m_nee
     Race = Var2
   )
 summary_tumor_race_after
-write.table(summary_tumor_race_after,"results/non-epithelial/summary_tumor_race_afer_filtering.tab",sep="\t",row.names = F, quote=F)
+write.table(summary_tumor_race_after,"results/non-epithelial/summary_tumor_race_before_filtering.tab",sep="\t",row.names = F, quote=F)
 
 # save fitlered seurat object
 saveRDS(so,"CellxGene/Filtered_no_Epithelial.rds")
@@ -108,7 +108,6 @@ p4 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "sex")
 p5 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "Tumor_Type")
 p6 = DimPlot(so, reduction=reduction_name,pt.size =0.1, group.by = "age_group")
 p7 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type", group.by = "self_reported_ethnicity")
-
 p9 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "self_reported_ethnicity", group.by = "Cell_Type")
 
 m_so = so@meta.data
@@ -133,7 +132,7 @@ bar_cluster =ggplot(long_data_cluster, aes(x = self_reported_ethnicity, y = perc
         legend.text = element_text(size = 15)) +
   guides(fill = guide_legend(override.aes = list(size = 8)))
 bar_cluster
-ggsave(plot = bar_cluster,height=8,width=6, filename = paste0(umap_path, "/barplot_Race.pdf"))
+ggsave(plot = bar_cluster,height=8,width=6, filename = paste0(umap_path, "/barplot_cluster.pdf"))
 
 p10 = DimPlot(so, reduction=reduction_name,pt.size =0.1, split.by = "Tumor_Type", group.by = "Cell_Type")
 
@@ -234,4 +233,3 @@ write.csv(AA_filtered_markers, "results/non-epithelial/AA_filtered_markers.csv")
 ###############################################################
 
 sessionInfo()
-
